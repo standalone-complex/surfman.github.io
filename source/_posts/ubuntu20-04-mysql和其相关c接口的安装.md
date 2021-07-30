@@ -1,7 +1,7 @@
 ---
 title: ubuntu20.04 mysql和其相关c接口的安装
 date: 2021-07-17 17:47:24
-tags:
+tags: -MYSQL
 ---
 
 在最新ubuntu下安装mysql非常简单，输入
