@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="cJSON是一个给C语言提供的用于创建和解析JSON的函数库 JSON是什么？ 然后最开始的，是cjson的下载 下载cJSON有两种途径  在sourceforge下载  用git命令直接clone   1git clone https:&#x2F;&#x2F;github.com&#x2F;DaveGamble&#x2F;cJSON  使用方法也有两种  将下载下来的文件中的cJSON.h和cJSON.c直接放入项目文件目录中，增加">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu20.04下安装，使用cJSON">
+<meta property="og:url" content="http://example.com/2021/08/01/Ubuntu20-04%E4%B8%8B%E5%AE%89%E8%A3%85%EF%BC%8C%E4%BD%BF%E7%94%A8cJSON/index.html">
+<meta property="og:site_name" content="Hexo-BBAslayer">
+<meta property="og:description" content="cJSON是一个给C语言提供的用于创建和解析JSON的函数库 JSON是什么？ 然后最开始的，是cjson的下载 下载cJSON有两种途径  在sourceforge下载  用git命令直接clone   1git clone https:&#x2F;&#x2F;github.com&#x2F;DaveGamble&#x2F;cJSON  使用方法也有两种  将下载下来的文件中的cJSON.h和cJSON.c直接放入项目文件目录中，增加">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-01T04:59:56.000Z">
+<meta property="article:modified_time" content="2021-08-28T10:42:21.185Z">
+<meta property="article:author" content="BBAslayer">
+<meta property="article:tag" content="-LinuxC">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/08/01/Ubuntu20-04%E4%B8%8B%E5%AE%89%E8%A3%85%EF%BC%8C%E4%BD%BF%E7%94%A8cJSON/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Ubuntu20.04下安装，使用cJSON | Hexo-BBAslayer</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo-BBAslayer</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/01/Ubuntu20-04%E4%B8%8B%E5%AE%89%E8%A3%85%EF%BC%8C%E4%BD%BF%E7%94%A8cJSON/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="BBAslayer">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo-BBAslayer">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ubuntu20.04下安装，使用cJSON
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-08-01 12:59:56" itemprop="dateCreated datePublished" datetime="2021-08-01T12:59:56+08:00">2021-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-08-28 18:42:21" itemprop="dateModified" datetime="2021-08-28T18:42:21+08:00">2021-08-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>cJSON是一个给C语言提供的用于创建和解析JSON的函数库</p>
+<p><a href="JSON%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F.md">JSON是什么？</a></p>
+<p><em><strong>然后最开始的，是cjson的下载</strong></em></p>
+<p>下载cJSON有两种途径</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/cjson/">在sourceforge下载</a></p>
+</li>
+<li><p>用git命令直接clone</p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/DaveGamble/cJSON</span><br></pre></td></tr></table></figure>
+
+<p>使用方法也有两种</p>
+<ul>
+<li><p>将下载下来的文件中的cJSON.h和cJSON.c直接放入项目文件目录中，增加<code>#include&quot;cJSON.h&quot;</code>并且在编译时带上cJSON.c文件</p>
+</li>
+<li><p>（仅限使用git命令clone的情况）</p>
+</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;克隆下来的仓库&gt;</span><br><span class="line">mkdir build </span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake  ..</span><br><span class="line">make</span><br><span class="line">make install</span><br><span class="line"><span class="comment"># 安装后 使用时需要增加 #include&lt;cjson/cJSON.h&gt; 并且在编译时增加 -lcjson 参数，链接动态库</span></span><br></pre></td></tr></table></figure>
+
+<p><em><strong>安装完毕之后,就是使用cJSON</strong></em></p>
+<ul>
+<li><p>如何用cJSON解析JSON字符串？</p>
+<ol>
+<li>将JSON字符串转化为链表结构<br>cJSON储存JSON字符串的基本单位是一个cJSON结构体，cJSON会通过调用<code>cJSON* cJSON_Parse(const char* value)</code>函数将一个JSON字符串转化为一个链表结构存储在内存中并返回链表的头节点的指针，链表其中的每一个节点存储着这个JSON中的每个元素（如果这个元素又是一个JSON字符串的话这个节点就会指向由这个JSON字符串生成的链表）。</li>
+<li>使用<code>cJSON_Get</code>系函数来得到链表中想得到的元素的节点<br>在执行过第一步后，我们得到了一个指向链表结构的头指针，将头指针放入<code>cJSON* cJSON_GetObjectItem(const cJSON* const object, const char* const string)</code>函数的第一个参数，将我们想得到的元素的名字放入第二个参数，随后函数就会返回我们需要的元素的节点的指针，这个时候我们还没有取到元素的内容，所以还需要继续下一步。  </li>
+<li>使用cJSON_GetNumberValue或者cJSON_GetStringValue得到我们节点中存储的元素的内容<br>在执行完第二步后，我们得到了指向我们目标元素的节点的指针，这时只需要把指针放入<code>double cJSON_GetNumberValue(const cJSON* item)</code>或者<code>char* cJSON_GetStringValue(const cJSON* item)</code>的参数中，函数就会给我们返回这个节点中元素的内容，然后我们就成功地将JSON字符串通过cJSON函数解析成为我们需要的数据  </li>
+</ol>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 解析JSON字符串的demo */</span></span><br><span class="line"><span class="comment">/* 这里用的是第二种安装方法的使用方法 */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cjson/cJSON.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/* 一个JSON字符串 */</span></span><br><span class="line">    <span class="keyword">char</span> buf_JSON[] = </span><br><span class="line">    <span class="string">&quot;&#123;                                              \</span></span><br><span class="line"><span class="string">                        \&quot;name\&quot; : \&quot;BBAslayer\&quot;,   \</span></span><br><span class="line"><span class="string">                        \&quot;age\&quot; : 19,               \</span></span><br><span class="line"><span class="string">                        \&quot;sex\&quot; : \&quot;male\&quot;,         \</span></span><br><span class="line"><span class="string">                        \&quot;favorite\&quot; : \&quot;surf\&quot;     \</span></span><br><span class="line"><span class="string">    &#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    cJSON* cjson, *cjson_name, *cjson_age, *cjson_sex, *cjson_favorite;</span><br><span class="line">    <span class="keyword">char</span>* name, *sex, *favorite;</span><br><span class="line">    <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 函数将JSON字符串转化为链表结构存储在内存并返回头结点的指针 */</span></span><br><span class="line">    cjson = cJSON_Parse(buf_JSON);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 获得指向需要元素的节点的指针 */</span></span><br><span class="line">    <span class="comment">/* 如果有嵌套JSON，多次调用此函数就好 */</span></span><br><span class="line">    cjson_name = cJSON_GetObjectItem(cjson, <span class="string">&quot;name&quot;</span>);</span><br><span class="line">    cjson_age = cJSON_GetObjectItem(cjson, <span class="string">&quot;age&quot;</span>);</span><br><span class="line">    cjson_sex = cJSON_GetObjectItem(cjson, <span class="string">&quot;sex&quot;</span>);</span><br><span class="line">    cjson_favorite = cJSON_GetObjectItem(cjson, <span class="string">&quot;favorite&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 从节点中取得元素内容 */</span></span><br><span class="line">    name = cJSON_GetStringValue(cjson_name);</span><br><span class="line">    age = cJSON_GetNumberValue(cjson_age);</span><br><span class="line">    sex = cJSON_GetStringValue(cjson_sex);</span><br><span class="line">    favorite = cJSON_GetStringValue(cjson_favorite);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s %d %s %s\n&quot;</span>, name, age, sex, favorite);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 输出结果为 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* BBAslayer 19 male surf */</span></span><br><span class="line"></span><br><span class="line">    cJSON_Delete(cjson);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如何用cJSON创建JSON字符串？  <ol>
+<li>使用<code>cJSON* cJSON_CreateObject()</code>创建一个cJSON头结点，返回指向头结点的指针</li>
+<li>使用<code>cJSON_Add</code>系函数向指针指向的结构添加元素</li>
+<li>使用<code>char* cJSON_Print(const cJSON* item)</code>将cJSON链表转化为JSON字符串</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 创建JSON字符串的demo */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cjson/cJSON.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    cJSON* cjson;</span><br><span class="line">    <span class="keyword">char</span>* buf;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 创建cJSON头结点 */</span></span><br><span class="line">    cjson = cJSON_CreateObject();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 向指针指向的结构添加元素 */</span></span><br><span class="line">    cJSON_AddStringToObject(cjson, <span class="string">&quot;name&quot;</span>, <span class="string">&quot;BBAslayer&quot;</span>);</span><br><span class="line">    cJSON_AddNumberToObject(cjson, <span class="string">&quot;age&quot;</span>, <span class="number">19</span>);</span><br><span class="line">    cJSON_AddStringToObject(cjson, <span class="string">&quot;sex&quot;</span>, <span class="string">&quot;male&quot;</span>);</span><br><span class="line">    cJSON_AddStringToObject(cjson, <span class="string">&quot;favorite&quot;</span>, <span class="string">&quot;surf&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 将指针指向的cJSON链表转化为JSON字符串 */</span></span><br><span class="line">    buf = cJSON_Print(cjson);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, buf);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 输出结果为 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        &#123;</span></span><br><span class="line"><span class="comment">        &quot;name&quot;: &quot;BBAslayer&quot;,</span></span><br><span class="line"><span class="comment">        &quot;age&quot;:  19,</span></span><br><span class="line"><span class="comment">        &quot;sex&quot;:  &quot;male&quot;,</span></span><br><span class="line"><span class="comment">        &quot;favorite&quot;:     &quot;surf&quot;</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    cJSON_free(buf);</span><br><span class="line">    cJSON_Delete(cjson);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对JSON中数组的创建和解析<br>数组在cJSON中的创建和解析略特殊，需要用到专有的函数，直接上demo</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 解析JSON数组元素的demo */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cjson/cJSON.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> buf_JSON[] =                     \</span><br><span class="line">    <span class="string">&quot;&#123;      \&quot;name\&quot; : \&quot;BBAslayer\&quot;,   \</span></span><br><span class="line"><span class="string">            \&quot;array\&quot; : [1, 2, 3, 4, 5],\</span></span><br><span class="line"><span class="string">            \&quot;weapon\&quot; : \&quot;claymore\&quot;   \</span></span><br><span class="line"><span class="string">    &#125;&quot;</span>;</span><br><span class="line"></span><br><span class="line">    cJSON* cjson, *cjson_array, *cjson_name, *cjson_weapon, *cjson_item;</span><br><span class="line">    <span class="keyword">int</span> array_size, array_item, i;</span><br><span class="line">    <span class="keyword">char</span>* name, *weapon; </span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 这些就不说了 */</span></span><br><span class="line">    cjson = cJSON_Parse(buf_JSON);</span><br><span class="line"></span><br><span class="line">    cjson_name = cJSON_GetObjectItem(cjson, <span class="string">&quot;name&quot;</span>);</span><br><span class="line">    cjson_weapon = cJSON_GetObjectItem(cjson, <span class="string">&quot;weapon&quot;</span>);</span><br><span class="line"></span><br><span class="line">    name = cJSON_GetStringValue(cjson_name);</span><br><span class="line">    weapon = cJSON_GetStringValue(cjson_weapon);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s %s\n&quot;</span>, name, weapon);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 以下是解析cJSON链表结构中数组的流程 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 获得指向cJSON结构链表中名为array数组的指针 */</span></span><br><span class="line">    cjson_array = cJSON_GetObjectItem(cjson, <span class="string">&quot;array&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 将上文获得的指针放入下方函数中可得到数组长度 */</span></span><br><span class="line">    array_size = cJSON_GetArraySize(cjson_array);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;以下为数组中的内容\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 然后就可以便历数组元素了 */</span></span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>; i&lt;array_size; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* 获得指向array数组中指定索引的元素的指针 */</span></span><br><span class="line">        cjson_item = cJSON_GetArrayItem(cjson_array, i);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* 从指针指向的cJSON结构中取数据 */</span></span><br><span class="line">        array_item = cJSON_GetNumberValue(cjson_item);</span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot; %d &quot;</span>, array_item);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 运行结果为 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        BBAslayer claymore</span></span><br><span class="line"><span class="comment">        以下为数组中的内容</span></span><br><span class="line"><span class="comment">         1  2  3  4  5</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    cJSON_Delete(cjson);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 创建JSON数组元素的demo */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cjson/cJSON.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">/* 想创建JSON中的数组，首先要创建cJSON结构链表，并且要创建特殊的数组结构链表 */</span></span><br><span class="line"></span><br><span class="line">    cJSON* cjson, *cjson_array;</span><br><span class="line">    <span class="keyword">char</span>* buf;</span><br><span class="line"></span><br><span class="line">    cjson = cJSON_CreateObject();</span><br><span class="line">    cJSON_AddStringToObject(cjson, <span class="string">&quot;name&quot;</span>, <span class="string">&quot;BBAslayer&quot;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*  */</span></span><br><span class="line">    cjson_array = cJSON_CreateArray();</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 此函数向数组结构中增加节点 */</span></span><br><span class="line">    <span class="comment">//cJSON_AddItemToArray(cjson_array, cjson_item);</span></span><br><span class="line">    <span class="comment">/* cJSON_Create系函数也可以通过这种方式直接创建节点 */</span></span><br><span class="line"></span><br><span class="line">    cJSON_AddItemToArray(cjson_array, cJSON_CreateNumber(<span class="number">1</span>));</span><br><span class="line">    cJSON_AddItemToArray(cjson_array, cJSON_CreateNumber(<span class="number">2</span>));</span><br><span class="line">    cJSON_AddItemToArray(cjson_array, cJSON_CreateNumber(<span class="number">3</span>));</span><br><span class="line">    cJSON_AddItemToArray(cjson_array, cJSON_CreateNumber(<span class="number">4</span>));</span><br><span class="line">    cJSON_AddItemToArray(cjson_array, cJSON_CreateNumber(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 可以直接输出数组 */</span></span><br><span class="line"></span><br><span class="line">    buf = cJSON_Print(cjson_array);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, buf);</span><br><span class="line"></span><br><span class="line">    cJSON_free(buf);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 也可以将这个数组加入其他的cJSON结构中 */</span></span><br><span class="line"></span><br><span class="line">    cJSON_AddItemToObject(cjson, <span class="string">&quot;array&quot;</span>, cjson_array);</span><br><span class="line"></span><br><span class="line">    buf = cJSON_Print(cjson);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, buf);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 输出结果为 */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">        [1, 2, 3, 4, 5]</span></span><br><span class="line"><span class="comment">        &#123;</span></span><br><span class="line"><span class="comment">                &quot;name&quot;: &quot;BBAslayer&quot;,</span></span><br><span class="line"><span class="comment">                &quot;array&quot;:        [1, 2, 3, 4, 5]</span></span><br><span class="line"><span class="comment">        &#125;</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line"></span><br><span class="line">    cJSON_free(buf);</span><br><span class="line">    cJSON_Delete(cjson);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>cJSON结构的内存释放<br>cJSON对于内存释放有两个函数，<code>void cJSON_free(void* object)</code> 和 <code>void cJSON_Delete(cJSON* item)</code>。<br>第一个函数释放由cJSON结构解析出的字符串（其实你用 <code>free()</code> 也可以）<br>第二个函数递归释放cJSON链表结构</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LinuxC/" rel="tag"># -LinuxC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/30/c-c-%E8%AF%AD%E6%B3%95%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA%E9%94%99%E8%AF%AF/" rel="prev" title="vscode c/c++ 语法高亮显示错误">
+      <i class="fa fa-chevron-left"></i> vscode c/c++ 语法高亮显示错误
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/01/JSON%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" rel="next" title="JSON是什么？">
+      JSON是什么？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">BBAslayer</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">BBAslayer</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
